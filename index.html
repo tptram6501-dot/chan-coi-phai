@@ -1,61 +1,92 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <title>Thư Viện Số AR - Chân Cối Phải</title>
+    <title>Thư Viện Số AR - Danh Mục Kỹ Thuật</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
     <style>
-        body { margin: 0; font-family: Arial, sans-serif; background-color: #f4f4f4; }
-        .header { padding: 20px; text-align: center; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        /* Cấu hình khung hiển thị mô hình */
-        model-viewer {
-            width: 100%;
-            height: 75vh;
-            --poster-color: transparent;
+        body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #2c3e50; color: white; overflow: hidden; }
+        
+        /* Khung hiển thị 3D */
+        model-viewer { width: 100vw; height: 100vh; --poster-color: transparent; }
+
+        /* Tiêu đề tài liệu */
+        .header { position: absolute; top: 20px; left: 20px; z-index: 100; pointer-events: none; }
+        .header h1 { margin: 0; font-size: 20px; text-transform: uppercase; letter-spacing: 2px; }
+        .header p { margin: 5px 0; font-size: 14px; opacity: 0.8; }
+
+        /* Menu chọn vật thể phía dưới */
+        .menu-scroll {
+            position: absolute; bottom: 80px; left: 0; width: 100%;
+            display: flex; overflow-x: auto; padding: 10px;
+            gap: 15px; scrollbar-width: none; z-index: 100;
+            background: rgba(0,0,0,0.3); backdrop-filter: blur(5px);
         }
+        .menu-scroll::-webkit-scrollbar { display: none; }
+
+        .menu-item {
+            min-width: 120px; padding: 10px; background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2); border-radius: 12px;
+            text-align: center; cursor: pointer; transition: 0.3s;
+        }
+        .menu-item:active { background: #3498db; transform: scale(0.95); }
+        .menu-item img { width: 40px; height: 40px; margin-bottom: 5px; }
+        .menu-item span { display: block; font-size: 12px; white-space: nowrap; }
+
+        /* Nút AR */
         .ar-button {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 25px;
-            padding: 12px 24px;
-            font-size: 16px;
-            position: absolute;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            cursor: pointer;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+            background: #3498db; color: white; border: none;
+            padding: 12px 30px; border-radius: 30px; font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3); z-index: 100;
         }
     </style>
 </head>
 <body>
 
     <div class="header">
-        <h1>Tài Liệu: Chân Cối Phải</h1>
-        <p>Xoay để xem chi tiết hoặc nhấn nút bên dưới để xem AR</p>
+        <h1 id="model-name">Chân Cối Phải</h1>
+        <p id="model-desc">Tài liệu kỹ thuật Inventor</p>
     </div>
 
-    <model-viewer 
-        src="chancoiphaimoi.glb" 
-        ar 
-        ar-modes="webxr scene-viewer quick-look" 
-        camera-controls 
-        auto-rotate 
-        shadow-intensity="1"
-        exposure="1"
-        environment-image="neutral">
+    <model-viewer id="viewer" 
+        src="chancoiphai.glb" 
+        ar ar-modes="webxr scene-viewer quick-look" 
+        camera-controls auto-rotate shadow-intensity="1"
+        exposure="1" environment-image="neutral">
         
-        <button slot="ar-button" class="ar-button">
-            🚀 XEM TRONG KHÔNG GIAN THẬT
-        </button>
+        <button slot="ar-button" class="ar-button">🚀 XEM TRONG PHÒNG</button>
     </model-viewer>
 
-    <div style="padding: 20px; text-align: center; color: #666;">
-        <small>© Thư viện số 2024 - Ứng dụng công nghệ WebAR</small>
-    </div>
+    <div class="menu-scroll">
+        <div class="menu-item" onclick="changeModel('chancoiphai', 'Chân Cối Phải')">
+            <span>⚙️ Chân Cối P</span>
+        </div>
+        <div class="menu-item" onclick="changeModel('chancoitrai', 'Chân Cối Trái')">
+            <span>⚙️ Chân Cối T</span>
+        </div>
+        <div class="menu-item" onclick="changeModel('trucquay', 'Trục Quay')">
+            <span>🔧 Trục Quay</span>
+        </div>
+        </div>
 
+    <script>
+        const viewer = document.getElementById('viewer');
+        const nameLabel = document.getElementById('model-name');
+
+        function changeModel(fileName, displayName) {
+            // Hiệu ứng mờ dần khi chuyển đổi
+            viewer.style.opacity = 0.5;
+            
+            // Đổi nguồn file .glb
+            viewer.src = fileName + ".glb";
+            nameLabel.innerText = displayName;
+
+            viewer.addEventListener('load', () => {
+                viewer.style.opacity = 1;
+            }, { once: true });
+        }
+    </script>
 </body>
 </html>
-
