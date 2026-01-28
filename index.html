@@ -1,94 +1,106 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <title>Thư Viện Số AR - Danh Mục Kỹ Thuật</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Súng Cối 60mm - Mô Hình Kỹ Thuật</title>
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.3.0/model-viewer.min.js"></script>
     <style>
-        body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #2c3e50; color: white; overflow: hidden; }
+        body { margin: 0; background: #0f170d; color: #e0e0e0; font-family: 'Segoe UI', Roboto, sans-serif; }
         
-        /* Khung hiển thị 3D */
-        model-viewer { width: 100vw; height: 100vh; --poster-color: transparent; }
-
-        /* Tiêu đề tài liệu */
-        .header { position: absolute; top: 20px; left: 20px; z-index: 100; pointer-events: none; }
-        .header h1 { margin: 0; font-size: 20px; text-transform: uppercase; letter-spacing: 2px; }
-        .header p { margin: 5px 0; font-size: 14px; opacity: 0.8; }
-
-        /* Menu chọn vật thể phía dưới */
-        .menu-scroll {
-            position: absolute; bottom: 80px; left: 0; width: 100%;
-            display: flex; overflow-x: auto; padding: 10px;
-            gap: 15px; scrollbar-width: none; z-index: 100;
-            background: rgba(0,0,0,0.3); backdrop-filter: blur(5px);
+        /* Tiêu đề chính */
+        .main-header { 
+            text-align: center; 
+            padding: 15px; 
+            background: linear-gradient(180deg, #1b5e20 0%, #0d2e10 100%);
+            border-bottom: 2px solid #4caf50;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
         }
-        .menu-scroll::-webkit-scrollbar { display: none; }
+        .main-header h1 { margin: 0; font-size: 24px; letter-spacing: 2px; color: #fff; }
 
-        .menu-item {
-            min-width: 120px; padding: 10px; background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.2); border-radius: 12px;
-            text-align: center; cursor: pointer; transition: 0.3s;
+        /* Hàng phím chức năng */
+        .nav-bar { 
+            display: flex; 
+            justify-content: center; 
+            flex-wrap: wrap; 
+            gap: 12px; 
+            padding: 15px; 
+            background: #121212; 
         }
-        .menu-item:active { background: #3498db; transform: scale(0.95); }
-        .menu-item img { width: 40px; height: 40px; margin-bottom: 5px; }
-        .menu-item span { display: block; font-size: 12px; white-space: nowrap; }
+        button { 
+            padding: 10px 18px; 
+            cursor: pointer; 
+            border: 1px solid #388e3c; 
+            border-radius: 4px; 
+            font-weight: bold; 
+            transition: all 0.3s;
+            text-transform: uppercase;
+        }
+        .btn-cum { background: #2e7d32; color: white; }
+        .btn-cum:hover { background: #4caf50; box-shadow: 0 0 8px #4caf50; }
+        .btn-info { background: #0277bd; color: white; border-color: #01579b; }
+        .btn-info:hover { background: #039be5; box-shadow: 0 0 8px #039be5; }
 
-        /* Nút AR */
-        .ar-button {
-            position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
-            background: #3498db; color: white; border: none;
-            padding: 12px 30px; border-radius: 30px; font-weight: bold;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3); z-index: 100;
+        model-viewer { width: 100%; height: 70vh; background: radial-gradient(#263238, #000); }
+        
+        /* Hộp nội dung thuyết minh */
+        #text-box { 
+            display: none; 
+            padding: 20px; 
+            background: #1e1e1e; 
+            border: 1px solid #333; 
+            margin: 15px auto; 
+            width: 90%; 
+            max-width: 800px;
+            border-left: 5px solid #0277bd;
+            line-height: 1.6;
+            white-space: pre-line; /* Giữ nguyên các dấu xuống dòng từ file txt */
         }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <h1 id="model-name">Chân Cối Phải</h1>
-        <p id="model-desc">Tài liệu kỹ thuật Inventor</p>
+    <div class="main-header">
+        <h1>SÚNG CỐI 60MM</h1>
     </div>
 
-    <model-viewer id="viewer" 
-        src="chancoiphaimoi.glb" 
-        ar ar-modes="webxr scene-viewer quick-look" 
-        camera-controls auto-rotate shadow-intensity="1"
-        exposure="1" environment-image="neutral">
-        
-        <button slot="ar-button" class="ar-button">🚀 XEM TRONG PHÒNG</button>
+    <div class="nav-bar">
+        <button class="btn-cum" onclick="location.href='pages/TayCam.html'">Cụm Tay Cầm</button>
+        <button class="btn-cum" onclick="location.href='pages/CoCauTam.html'">Cơ Cấu Tầm</button>
+        <button class="btn-cum" onclick="location.href='pages/CoCauHuong.html'">Cơ Cấu Hướng</button>
+        <button class="btn-info" onclick="toggleThuyetMinh()">Thuyết Minh</button>
+    </div>
+
+    <model-viewer 
+        src="models/LapGhepTong.glb" 
+        camera-controls 
+        auto-rotate 
+        ar 
+        shadow-intensity="1"
+        exposure="1">
     </model-viewer>
 
-    <div class="menu-scroll">
-        <div class="menu-item" onclick="changeModel('chancoiphaimoi', 'Chân Cối Phải')">
-            <span>⚙️ Chân Cối P</span>
-        </div>
-        <div class="menu-item" onclick="changeModel('chancoitrai', 'Chân Cối Trái')">
-            <span>⚙️ Chân Cối T</span>
-        </div>
-        <div class="menu-item" onclick="changeModel('duoisung', 'Đuôi Súng')">
-            <span>🔧 Trục Quay</span>
-        </div>
-        </div>
+    <div id="text-box"></div>
 
     <script>
-        const viewer = document.getElementById('viewer');
-        const nameLabel = document.getElementById('model-name');
-
-        function changeModel(fileName, displayName) {
-            // Hiệu ứng mờ dần khi chuyển đổi
-            viewer.style.opacity = 0.5;
-            
-            // Đổi nguồn file .glb
-            viewer.src = fileName + ".glb";
-            nameLabel.innerText = displayName;
-
-            viewer.addEventListener('load', () => {
-                viewer.style.opacity = 1;
-            }, { once: true });
+        function toggleThuyetMinh() {
+            const box = document.getElementById('text-box');
+            if (box.style.display === 'block') { 
+                box.style.display = 'none'; 
+            } else {
+                fetch('ThuyetMinh.txt')
+                    .then(response => response.text())
+                    .then(data => {
+                        box.innerText = data;
+                        box.style.display = 'block';
+                        box.scrollIntoView({ behavior: 'smooth' });
+                    })
+                    .catch(err => {
+                        box.innerText = "Lỗi: Không tìm thấy file ThuyetMinh.txt";
+                        box.style.display = 'block';
+                    });
+            }
         }
     </script>
 </body>
 </html>
-
-
