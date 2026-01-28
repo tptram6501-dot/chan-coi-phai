@@ -3,82 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phân Tích Cụm - Súng Cối 60mm</title>
+    <title>Phân Tích Chi Tiết</title>
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.3.0/model-viewer.min.js"></script>
     <style>
         body { margin: 0; background: #000; color: white; font-family: sans-serif; overflow: hidden; }
+        .top-nav { position: absolute; top: 15px; width: 100%; display: flex; flex-direction: column; align-items: center; z-index: 10; }
+        .title-label { color: #4caf50; text-transform: uppercase; font-size: 14px; font-weight: bold; margin-bottom: 8px; }
+        .back-btn { padding: 5px 12px; background: rgba(255,255,255,0.1); color: #ccc; border: 1px solid #444; border-radius: 3px; cursor: pointer; text-decoration: none; font-size: 10px; }
         
-        /* Menu Tiêu đề */
-        .top-nav {
-            position: absolute; top: 15px; width: 100%; 
-            display: flex; flex-direction: column; align-items: center; z-index: 10;
-        }
-        .title-label { color: #4caf50; text-transform: uppercase; font-size: 14px; font-weight: bold; margin-bottom: 5px; }
-        .back-btn { padding: 4px 10px; background: rgba(255,255,255,0.1); color: #ccc; border: 1px solid #444; border-radius: 3px; cursor: pointer; text-decoration: none; font-size: 10px; }
+        .sidebar-right { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); z-index: 10; }
+        .btn-video { width: 90px; padding: 12px 5px; cursor: pointer; background: rgba(255, 193, 7, 0.2); color: #ffc107; border: 1px solid #ffc107; border-radius: 4px; font-weight: bold; font-size: 10px; }
 
-        /* Nút chức năng bên phải */
-        .sidebar-right {
-            position: absolute; right: 15px; top: 50%; transform: translateY(-50%);
-            display: flex; flex-direction: column; gap: 10px; z-index: 10;
-        }
-        .btn-video {
-            width: 100px; padding: 12px 5px; cursor: pointer;
-            background: rgba(255, 193, 7, 0.2); color: #ffc107;
-            border: 1px solid #ffc107; border-radius: 4px;
-            font-weight: bold; font-size: 11px; transition: 0.3s;
-        }
-        .btn-video:hover { background: rgba(255, 193, 7, 0.4); }
-
-        /* Lớp phủ Video (Popup) */
-        #video-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.95); display: none;
-            flex-direction: column; justify-content: center; align-items: center; z-index: 100;
-        }
-        video { width: 90%; max-width: 700px; border: 1px solid #ffc107; border-radius: 5px; box-shadow: 0 0 20px rgba(255,193,7,0.3); }
-        .close-btn { margin-top: 20px; padding: 10px 25px; background: #ffc107; color: black; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
-
+        #video-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 100; }
+        video { width: 90%; max-width: 700px; border: 1px solid #ffc107; }
+        .close-btn { margin-top: 15px; padding: 10px 20px; background: #ffc107; border: none; cursor: pointer; font-weight: bold; }
+        
         model-viewer { width: 100vw; height: 100vh; }
     </style>
 </head>
 <body>
 
     <div class="top-nav">
-        <div class="title-label">PHÂN TÍCH CỤM THÂN SÚNG</div>
-        <a href="../index.html" class="back-btn">← TRANG CHỦ</a>
+        <div class="title-label">CỤM THÂN SÚNG</div> <a href="../index.html" class="back-btn">← TRANG CHỦ</a>
     </div>
 
     <div class="sidebar-right">
-        <button class="btn-video" onclick="openVideo()">XEM PHÂN TÍCH</button>
+        <button class="btn-video" onclick="openVideo()">PHÂN TÍCH</button>
     </div>
 
     <model-viewer src="../models/CumThanSung.glb" camera-controls auto-rotate shadow-intensity="1"></model-viewer>
 
     <div id="video-overlay">
         <video id="player" controls playsinline>
-            <source src="../videos/PT.ThanSung.mp4" type="video/mp4">
+            <source src="../videos/PT.CumThanSung.mp4" type="video/mp4">
         </video>
-        <button class="close-btn" onclick="closeVideo()">ĐÓNG PHÂN TÍCH</button>
+        <button class="close-btn" onclick="closeVideo()">ĐÓNG</button>
     </div>
 
     <script>
         const overlay = document.getElementById('video-overlay');
         const player = document.getElementById('player');
-
-        function openVideo() {
-            overlay.style.display = 'flex';
-            player.play();
-        }
-
-        function closeVideo() {
-            player.pause();
-            overlay.style.display = 'none';
-        }
-
-        // Đóng video khi nhấn ra ngoài vùng video
-        overlay.onclick = function(e) {
-            if (e.target === overlay) closeVideo();
-        }
+        function openVideo() { overlay.style.display = 'flex'; player.play(); }
+        function closeVideo() { player.pause(); overlay.style.display = 'none'; }
+        overlay.onclick = function(e) { if (e.target === overlay) closeVideo(); }
     </script>
 </body>
 </html>
