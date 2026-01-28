@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Phân Tích Chi Tiết</title>
+    <title>Cơ Cấu Tầm - Phân Tích</title>
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.3.0/model-viewer.min.js"></script>
     <style>
         body { margin: 0; background: #000; color: white; font-family: sans-serif; overflow: hidden; }
@@ -11,8 +11,12 @@
         .title-label { color: #4caf50; text-transform: uppercase; font-size: 14px; font-weight: bold; margin-bottom: 8px; }
         .back-btn { padding: 5px 12px; background: rgba(255,255,255,0.1); color: #ccc; border: 1px solid #444; border-radius: 3px; cursor: pointer; text-decoration: none; font-size: 10px; }
         
-        .sidebar-right { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); z-index: 10; }
-        .btn-video { width: 90px; padding: 12px 5px; cursor: pointer; background: rgba(255, 193, 7, 0.2); color: #ffc107; border: 1px solid #ffc107; border-radius: 4px; font-weight: bold; font-size: 10px; }
+        /* Sidebar bên phải cho các chức năng phân tích */
+        .sidebar-right { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 10px; z-index: 10; }
+        
+        .btn-tech { width: 100px; padding: 12px 5px; cursor: pointer; background: rgba(255, 193, 7, 0.2); color: #ffc107; border: 1px solid #ffc107; border-radius: 4px; font-weight: bold; font-size: 10px; transition: 0.3s; }
+        .btn-tech:hover { background: rgba(255, 193, 7, 0.4); }
+        .btn-active { background: #ffc107 !important; color: black !important; }
 
         #video-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); display: none; flex-direction: column; justify-content: center; align-items: center; z-index: 100; }
         video { width: 90%; max-width: 700px; border: 1px solid #ffc107; }
@@ -24,14 +28,16 @@
 <body>
 
     <div class="top-nav">
-        <div class="title-label">CƠ CẤU TẦM</div> <a href="../index.html" class="back-btn">← TRANG CHỦ</a>
+        <div class="title-label" id="main-title">CƠ CẤU TẦM</div> 
+        <a href="../index.html" class="back-btn">← TRANG CHỦ</a>
     </div>
 
     <div class="sidebar-right">
-        <button class="btn-video" onclick="openVideo()">PHÂN TÍCH</button>
+        <button class="btn-tech" id="btn-video" onclick="openVideo()">XEM VIDEO</button>
+        <button class="btn-tech" id="btn-cut" onclick="toggleCutView()">XEM CẮT BỔ</button>
     </div>
 
-    <model-viewer src="../models/CoCauTam.glb" camera-controls auto-rotate shadow-intensity="1"></model-viewer>
+    <model-viewer id="model-main" src="../models/CoCauTam.glb" camera-controls auto-rotate shadow-intensity="1"></model-viewer>
 
     <div id="video-overlay">
         <video id="player" controls playsinline>
@@ -43,6 +49,33 @@
     <script>
         const overlay = document.getElementById('video-overlay');
         const player = document.getElementById('player');
+        const modelMain = document.getElementById('model-main');
+        const btnCut = document.getElementById('btn-cut');
+        const mainTitle = document.getElementById('main-title');
+
+        let isCutView = false;
+
+        // Chức năng chuyển đổi mô hình Cắt bổ
+        function toggleCutView() {
+            isCutView = !isCutView;
+            
+            if (isCutView) {
+                // Đổi sang mô hình cắt bổ
+                modelMain.src = "../models/CoCauTamCatBo.glb";
+                btnCut.innerText = "MÔ HÌNH CHÍNH";
+                btnCut.classList.add("btn-active");
+                mainTitle.innerText = "CƠ CẤU TẦM (CẮT BỔ)";
+                mainTitle.style.color = "#ffc107";
+            } else {
+                // Quay lại mô hình nguyên vẹn
+                modelMain.src = "../models/CoCauTam.glb";
+                btnCut.innerText = "XEM CẮT BỔ";
+                btnCut.classList.remove("btn-active");
+                mainTitle.innerText = "CƠ CẤU TẦM";
+                mainTitle.style.color = "#4caf50";
+            }
+        }
+
         function openVideo() { overlay.style.display = 'flex'; player.play(); }
         function closeVideo() { player.pause(); overlay.style.display = 'none'; }
         overlay.onclick = function(e) { if (e.target === overlay) closeVideo(); }
