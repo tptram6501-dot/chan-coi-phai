@@ -3,83 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Súng Cối 60mm - Tổng Quan</title>
+    <title>Súng Cối 60mm - Giao diện Sáng</title>
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.3.0/model-viewer.min.js"></script>
     <style>
-        /* Thiết lập nền tổng thể sáng và hiện đại */
-body {
-    background-color: #f0f2f5; /* Màu xám trắng dịu mắt */
-    color: #1a1a1a; /* Chữ màu tối để dễ đọc trên nền sáng [cite: 42] */
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    margin: 0;
-    padding: 0;
-}
+        /* Thay đổi màu nền chủ đạo sang xám trắng */
+        body { margin: 0; background: #f5f7f5; color: #333; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; overflow: hidden; }
+        
+        .header {
+            position: absolute; top: 0; width: 100%; text-align: center;
+            background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(5px);
+            padding: 12px 0; z-index: 5; border-bottom: 2px solid #2e7d32;
+        }
+        .header h1 { margin: 0; font-size: 18px; color: #1b5e20; text-transform: uppercase; letter-spacing: 2px; }
 
-/* Khung chứa mô hình 3D */
-#viewer-container {
-    background: #ffffff; /* Nền trắng tinh khiết cho khu vực xem 3D */
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); /* Đổ bóng nhẹ tạo chiều sâu */
-    margin: 20px;
-    border: 1px solid #dcdfe6;
-}
+        /* Cột phím điều hướng */
+        .sidebar {
+            position: absolute; display: flex; flex-direction: column; gap: 8px; z-index: 10;
+            top: 70px;
+        }
+        .sidebar-left { left: 12px; max-height: 80vh; overflow-y: auto; padding-right: 5px; }
+        .sidebar-right { right: 12px; }
 
-/* Bảng điều khiển và Menu */
-.menu-panel {
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(10px); /* Hiệu ứng kính mờ hiện đại */
-    border-left: 1px solid #dcdfe6;
-    padding: 20px;
-}
+        /* Tùy chỉnh thanh cuộn cho Sidebar */
+        .sidebar-left::-webkit-scrollbar { width: 4px; }
+        .sidebar-left::-webkit-scrollbar-thumb { background: #cbd5cb; border-radius: 10px; }
 
-/* Nút bấm tương tác (Xoay, Lật, Cắt bổ) */
-.btn-control {
-    background-color: #0056b3; /* Xanh quân chủng chuyên nghiệp */
-    color: white;
-    border: none;
-    border-radius: 6px;
-    padding: 10px 16px;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    cursor: pointer;
-}
+        /* Phím bấm dạng sáng chuyên nghiệp */
+        .btn {
+            width: 120px; padding: 12px 8px; cursor: pointer;
+            background: #ffffff; color: #1b5e20;
+            border: 1px solid #2e7d32; border-radius: 6px;
+            font-weight: bold; font-size: 11px; transition: 0.3s;
+            text-align: center; text-transform: uppercase;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .btn:hover { background: #e8f5e9; box-shadow: 0 4px 10px rgba(46, 125, 50, 0.2); transform: translateY(-1px); }
+        
+        /* Phím chức năng Thuyết minh (Màu xanh dương sáng) */
+        .btn-info { background: #ffffff; color: #01579b; border-color: #0288d1; }
+        .btn-info:hover { background: #e1f5fe; }
 
-.btn-control:hover {
-    background-color: #004494;
-    transform: translateY(-2px); /* Hiệu ứng nổi lên khi di chuột */
-}
+        /* Mô hình 3D - Nền Gradient sáng */
+        model-viewer { 
+            width: 100vw; height: 100vh; 
+            background: radial-gradient(circle, #ffffff 0%, #e0e0e0 100%); 
+        }
 
-/* Nhãn chú thích chi tiết */
-.annotation-label {
-    background: #ffffff;
-    border: 1px solid #0056b3;
-    color: #0056b3;
-    padding: 4px 8px;
-    border-radius: 4px;
-    font-size: 12px;
-}
+        /* Hộp thoại thuyết minh chữ */
+        #text-box {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 80%; max-height: 50vh; background: rgba(255, 255, 255, 0.98);
+            border-left: 5px solid #0288d1; color: #333;
+            padding: 25px; border-radius: 8px;
+            display: none; overflow-y: auto; z-index: 100; 
+            font-size: 15px; line-height: 1.8;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
     </style>
 </head>
 <body>
 
     <div class="header"><h1>SÚNG CỐI 60MM</h1></div>
 
-   <div class="sidebar sidebar-left">
-    <div style="font-size: 9px; color: #888; text-align: center; margin-bottom: 5px;">DANH MỤC CỤM</div>
-    <button class="btn" onclick="location.href='pages/CoCauTam.html'">Cơ Cấu Tầm</button>
-    <button class="btn" onclick="location.href='pages/CoCauHuong.html'">Cơ Cấu Hướng</button>
-    <button class="btn" onclick="location.href='pages/CumThanSung.html'">Thân Súng</button>
-    <button class="btn" onclick="location.href='pages/CumDuoiSung.html'">Đuôi Súng</button>
-    <button class="btn" onclick="location.href='pages/CumGiamGiat.html'">Giảm Giật</button>
-    <button class="btn" onclick="location.href='pages/DeSung.html'">Đế Súng</button>
-</div>
+    <div class="sidebar sidebar-left">
+        <button class="btn" onclick="location.href='pages/CumTayCam.html'">Tay Cầm</button>
+        <button class="btn" onclick="location.href='pages/CoCauTam.html'">Cơ Cấu Tầm</button>
+        <button class="btn" onclick="location.href='pages/CoCauHuong.html'">Cơ Cấu Hướng</button>
+        <button class="btn" onclick="location.href='pages/CumThanSung.html'">Thân Súng</button>
+        <button class="btn" onclick="location.href='pages/CumDuoiSung.html'">Đuôi Súng</button>
+        <button class="btn" onclick="location.href='pages/CumGiamGiat.html'">Giảm Giật</button>
+        <button class="btn" onclick="location.href='pages/DeSung.html'">Đế Súng</button>
+    </div>
 
     <div class="sidebar sidebar-right">
         <button class="btn btn-info" onclick="event.stopPropagation(); toggleText()">Xem Chữ</button>
         <button class="btn btn-info" id="audio-btn" onclick="event.stopPropagation(); toggleAudio()">Nghe Âm</button>
     </div>
 
-    <model-viewer id="main-model" src="models/LapGhepTong.glb" camera-controls auto-rotate shadow-intensity="1" onclick="hideText()">
+    <model-viewer id="main-model" src="models/LapGhepTong.glb" 
+        camera-controls auto-rotate shadow-intensity="1.5" 
+        shadow-softness="1" exposure="1.2" onclick="hideText()">
     </model-viewer>
 
     <div id="text-box" onclick="event.stopPropagation()"></div>
@@ -96,36 +99,31 @@ body {
                     textBox.innerText = data;
                     textBox.style.display = 'block';
                 }).catch(() => {
-                    textBox.innerText = "Lỗi: Không tìm thấy file ThuyetMinh.txt";
+                    textBox.innerText = "Lỗi nạp thuyết minh.";
                     textBox.style.display = 'block';
                 });
             }
         }
 
         function hideText() { textBox.style.display = 'none'; }
-
-        window.addEventListener('click', function(e) {
-            if (!textBox.contains(e.target)) hideText();
-        });
+        window.addEventListener('click', function(e) { if (!textBox.contains(e.target)) hideText(); });
 
         const audio = document.getElementById('myAudio');
         const audioBtn = document.getElementById('audio-btn');
 
         function toggleAudio() {
             if (audio.paused) {
-                audio.play().catch(() => alert("Nhấn vào màn hình trước khi nghe!"));
+                audio.play().catch(() => alert("Nhấn vào màn hình trước!"));
                 audioBtn.innerText = "Dừng";
-                audioBtn.style.background = "#c62828";
+                audioBtn.style.background = "#ffebee";
+                audioBtn.style.color = "#c62828";
             } else {
                 audio.pause();
                 audioBtn.innerText = "Nghe Âm";
-                audioBtn.style.background = "rgba(1, 87, 155, 0.8)";
+                audioBtn.style.background = "#ffffff";
+                audioBtn.style.color = "#01579b";
             }
         }
     </script>
 </body>
 </html>
-
-
-
-
