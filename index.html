@@ -6,47 +6,58 @@
     <title>Súng Cối 60mm - Tổng Quan</title>
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.3.0/model-viewer.min.js"></script>
     <style>
-        body { margin: 0; background: #0b0f0a; color: white; font-family: sans-serif; overflow: hidden; }
-        
-        .header {
-            position: absolute; top: 0; width: 100%; text-align: center;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent); 
-            padding: 10px 0; z-index: 5; pointer-events: none;
-        }
-        .header h1 { margin: 0; font-size: 16px; color: #4caf50; text-transform: uppercase; letter-spacing: 1px; }
+        /* Thiết lập nền tổng thể sáng và hiện đại */
+body {
+    background-color: #f0f2f5; /* Màu xám trắng dịu mắt */
+    color: #1a1a1a; /* Chữ màu tối để dễ đọc trên nền sáng [cite: 42] */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+}
 
-        /* Cột phím bên TRÁI - Danh sách cụm chi tiết đã cập nhật */
-        .sidebar {
-            position: absolute; display: flex; flex-direction: column; gap: 6px; z-index: 10;
-            top: 50px; /* Bắt đầu từ dưới tiêu đề */
-        }
-        .sidebar-left { left: 10px; max-height: 85vh; overflow-y: auto; padding-right: 5px; }
-        .sidebar-right { right: 10px; }
+/* Khung chứa mô hình 3D */
+#viewer-container {
+    background: #ffffff; /* Nền trắng tinh khiết cho khu vực xem 3D */
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05); /* Đổ bóng nhẹ tạo chiều sâu */
+    margin: 20px;
+    border: 1px solid #dcdfe6;
+}
 
-        /* Thanh cuộn nhỏ cho danh sách dài */
-        .sidebar-left::-webkit-scrollbar { width: 3px; }
-        .sidebar-left::-webkit-scrollbar-thumb { background: #2e7d32; border-radius: 10px; }
+/* Bảng điều khiển và Menu */
+.menu-panel {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px); /* Hiệu ứng kính mờ hiện đại */
+    border-left: 1px solid #dcdfe6;
+    padding: 20px;
+}
 
-        .btn {
-            width: 110px; padding: 10px 5px; cursor: pointer;
-            background: rgba(27, 94, 32, 0.8); color: white;
-            border: 1px solid #2e7d32; border-radius: 3px;
-            font-weight: bold; font-size: 10px; transition: 0.3s;
-            text-align: center; text-transform: uppercase;
-        }
-        .btn:hover { background: #2e7d32; box-shadow: 0 0 10px #4caf50; }
-        .btn-info { background: rgba(1, 87, 155, 0.8); border-color: #0277bd; }
+/* Nút bấm tương tác (Xoay, Lật, Cắt bổ) */
+.btn-control {
+    background-color: #0056b3; /* Xanh quân chủng chuyên nghiệp */
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 16px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
 
-        model-viewer { width: 100vw; height: 100vh; background: #000; }
+.btn-control:hover {
+    background-color: #004494;
+    transform: translateY(-2px); /* Hiệu ứng nổi lên khi di chuột */
+}
 
-        /* Hộp thoại thuyết minh */
-        #text-box {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 80%; max-height: 50vh; background: rgba(0, 0, 0, 0.95);
-            border: 1px solid #0277bd; padding: 20px; border-radius: 10px;
-            display: none; overflow-y: auto; z-index: 100; 
-            font-size: 14px; line-height: 1.6; white-space: pre-line;
-        }
+/* Nhãn chú thích chi tiết */
+.annotation-label {
+    background: #ffffff;
+    border: 1px solid #0056b3;
+    color: #0056b3;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+}
     </style>
 </head>
 <body>
@@ -114,6 +125,7 @@
     </script>
 </body>
 </html>
+
 
 
 
